@@ -17,20 +17,51 @@ export const DropdownContainer = styled.div`
 
     outline: none;
     background-color: ${colors.neutrals.lightest};
-    border: 2px solid ${colors.secondary.medium};
+    border: 1px solid ${colors.secondary.medium};
     color: ${colors.secondary.medium};
     border-radius: 42px;
+    white-space: nowrap;
 
-    &:hover,&.open {
+    &:hover,
+    &.open {
       background-color: ${colors.secondary.medium}0D;
     }
   }
 
   select {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     position: fixed;
     margin-top: 32px;
     width: 314px;
     height: 204px;
     overflow: scroll;
+    background-color: ${colors.neutrals.lightest};
+    padding: 16px;
+
+    &-internal-list-box:focus {
+      option:checked:hover,
+      option:checked {
+        background-color: ${colors.neutrals["extra-light"]};
+      }
+    }
+
+    option {
+      display: flex;
+      align-items: center;
+      color: ${colors.neutrals.darkest};
+      font-size: 14px;
+      height: 28px;
+      border-radius: 4px;
+      padding: 4px 0;
+
+      &:active,
+      &:focus,
+      &:checked,
+      &.selected {
+        background-color: ${colors.neutrals["extra-light"]};
+      }
+    }
   }
-`
+`;

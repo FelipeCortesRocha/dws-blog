@@ -3,11 +3,12 @@ import type { Author, Category, Post } from '../../types'
 import { HomeContainer } from './styles'
 import Filters from '../../components/filters'
 import { useGetPostsQuery } from '../../services/dws-service'
-import { type RootState } from '../../store'
+import { setCategories, store, type RootState } from '../../store'
 import { useSelector } from 'react-redux'
 import { useMemo } from 'react'
 
-function App() {
+function Home() {
+  const sort = useSelector((state: RootState) => state.global.sort)
   const searchTerm = useSelector((state: RootState) => state.global.searchTerm.toLowerCase())
   const selectedCategories = useSelector((state: RootState) => state.global.selectedCategories)
   const selectedAuthors = useSelector((state: RootState) => state.global.selectedAuthors)
@@ -25,6 +26,7 @@ function App() {
 
     const uniqueCategories: Category[] = [...new Map<string, Category>(categoriesArr.map((item: Category) => [item.id, item])).values()];
 
+    setTimeout(() => store.dispatch(setCategories(uniqueCategories)), 100)
     return uniqueCategories
   }, [posts])
 
@@ -45,7 +47,7 @@ function App() {
   const filteredPosts = useMemo(() => {
     if (!posts?.length) return []
 
-    return posts.filter((post: Post) => {
+    const filteredList = posts.filter((post: Post) => {
       if (selectedAuthors.length && !selectedAuthors.includes(post.authorId)) return false
       if (selectedCategories.length) {
         const postCategories = post.categories.map((category: Category) => category.id)
@@ -62,11 +64,17 @@ function App() {
   
       return true
     })
-  }, [posts, selectedAuthors, selectedCategories, searchTerm])
+
+    if (sort === "newest") {
+      return filteredList.sort((a: Post, b: Post) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    }
+    
+    return filteredList.sort((a: Post, b: Post) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+    
+  }, [posts, selectedAuthors, selectedCategories, searchTerm, sort])
 
   return (
     <HomeContainer>
-
         {isLoading && <div>Loading...</div>}
         {error && <div>Error fetching posts</div>}
         {!posts && <div>No data</div>}
@@ -84,4 +92,4 @@ function App() {
   )
 }
 
-export default App
+export default Home

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import type { Post } from '../../types';
 import { dateFormatter } from '../../utils';
 import { ContainerTitleContent, PostContainer } from './styles';
@@ -7,8 +8,10 @@ interface PostCardProps {
 }
 
 function PostCard({ post }: PostCardProps) {
+  const navigate = useNavigate()
+
   return (
-    <PostContainer>
+    <PostContainer onClick={() => navigate(`/post/${post.id}`)}>
       <img src={post.thumbnail_url} alt="Post thumbnail"/>
 
       <div className='content-container'>

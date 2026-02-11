@@ -1,8 +1,10 @@
 import { useSelector } from "react-redux";
-import { setSelectedAuthor, setSelectedCategory, type RootState } from "../../store";
+import { setSelectedAuthor, setSelectedCategory, setSort, store, type RootState } from "../../store";
 import type { Author, Category } from "../../types";
 import Select from "../dropdown";
 import { FiltersContainer } from "./styles";
+import Button from "../button";
+import { ArrowUpDown } from "lucide-react";
 
 interface FiltersProps {
   categories: Category[];
@@ -10,13 +12,16 @@ interface FiltersProps {
 }
 
 function Filters({ categories, authors }: FiltersProps) {
-  const selectedCategories = useSelector((state: RootState) => state.global.selectedCategories)
-  const selectedAuthors = useSelector((state: RootState) => state.global.selectedAuthors)
+  const { sort, selectedCategories, selectedAuthors } = useSelector((state: RootState) => state.global)
 
   return (
     <FiltersContainer>
-      <Select title="Category" items={categories} selectedItems={selectedCategories} setFunction={setSelectedCategory} />
-      <Select title="Author" items={authors} selectedItems={selectedAuthors} setFunction={setSelectedAuthor} />
+      <div className="filters">
+        <Select title="Category" items={categories} selectedItems={selectedCategories} setFunction={setSelectedCategory} />
+        <Select title="Author" items={authors} selectedItems={selectedAuthors} setFunction={setSelectedAuthor} />
+      </div>
+
+      <Button type="tertiary" onClick={() => {store.dispatch(setSort(sort === 'Oldest' ? 'Newest' : 'Oldest'))}} IconRight={ArrowUpDown}>{sort} first</Button>
     </FiltersContainer>
   );
 }

@@ -1,14 +1,15 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
-import type { Post } from "./types";
 import { dwsApi } from "./services/dws-service";
+import type { Category } from "./types";
 
 const globalSlice = createSlice({
 	name: "global",
 	initialState: {
 		searchTerm: "",
+		sort: "Newest",
+		categories: [] as Category[],
 		selectedCategories: [] as string[],
 		selectedAuthors: [] as string[],
-		selectedPost: {} as Post,
 	},
 	reducers: {
 		setSearchTerm: (state, event) => {
@@ -30,10 +31,14 @@ const globalSlice = createSlice({
 			state.selectedAuthors = event.payload;
 			return state;
 		},
-		setSelectedPost: (state, event) => {
-			state.selectedPost = event.payload;
+		setCategories: (state, event) => {
+			state.categories = event.payload;
 			return state;
 		},
+		setSort: (state, event) => {
+			state.sort = event.payload;
+			return state;
+		}
 	},
 });
 
@@ -41,7 +46,8 @@ export const {
 	setSearchTerm,
 	setSelectedCategory,
 	setSelectedAuthor,
-	setSelectedPost,
+	setCategories,
+	setSort,
 } = globalSlice.actions;
 
 export const store = configureStore({
