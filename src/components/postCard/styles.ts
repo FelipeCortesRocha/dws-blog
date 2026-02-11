@@ -1,11 +1,12 @@
-import styled from "styled-components";
-import { colors } from "../../styles";
+import styled from 'styled-components';
+import { breakpoints, colors } from '../../styles';
 
 export const PostContainer = styled.article`
   width: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  cursor: pointer;
 
   img {
     border-radius: 16px 16px 0 0;
@@ -28,7 +29,7 @@ export const PostContainer = styled.article`
       gap: 8px;
       align-items: center;
       height: 19px;
-      color: ${colors.neutrals["extra-dark"]};
+      color: ${colors.neutrals['extra-dark']};
 
       span {
         color: ${colors.secondary.medium};
@@ -44,12 +45,12 @@ export const PostContainer = styled.article`
       article {
         padding: 8px 12px;
         border-radius: 42px;
-        background: ${colors.neutrals["extra-light"]}
+        background: ${colors.neutrals['extra-light']};
       }
     }
   }
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: ${breakpoints.tablet}) {
     width: 314px;
   }
 `;
@@ -60,7 +61,8 @@ export const ContainerTitleContent = styled.div`
   align-items: flex-start;
   gap: 8px;
 
-  h3, .post-content {
+  h3,
+  .post-content {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;

@@ -1,80 +1,107 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef, useState } from 'react'
-import { DropdownContainer } from './styles'
-import { store } from '../../store'
-import { ChevronDown } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react';
+import { DropdownContainer } from './styles';
+import { store } from '../../store';
+import { ChevronDown } from 'lucide-react';
 
 interface Item {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 interface DropdownProps {
-  title: string
-  items: Item[]
-  selectedItems: string[],
-  setFunction: any
+  title: string;
+  items: Item[];
+  selectedItems: string[];
+  setFunction: any;
+  lateral: boolean;
+  shouldUpdate?: boolean;
 }
 
-function Dropdown({ title, items, selectedItems, setFunction }: DropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
+function Dropdown({ title, items, selectedItems, setFunction, lateral = false, shouldUpdate }: DropdownProps) {
+  const [isOpen, setIsOpen] = useState(lateral ? true : false);
+  const [localSelectedItems, setLocalSelectedItems] = useState<string[]>([...selectedItems]);
   const wrapperRef: any = useRef(null);
+  const selectRef: any = useRef(null);
 
-  const handleSelect = (selectElement: HTMLSelectElement) => {
-    const selectedIds = [...selectElement.selectedOptions].map(((option: HTMLOptionElement) => option.value))
+  const handleSelect = (event: any) => {
+    let newSelectedItems = [];
 
-    store.dispatch(setFunction(selectedIds))
-  }
-  
+    if (lateral) {
+      const value = event.target.value;
+      if (localSelectedItems.includes(value)) {
+        newSelectedItems = localSelectedItems.filter(item => item !== value);
+      } else {
+        newSelectedItems = [...localSelectedItems, value];
+      }
+
+      setLocalSelectedItems(newSelectedItems);
+    } else {
+      const selectedOptions = event.target.selectedOptions;
+      newSelectedItems = Array.from(selectedOptions).map((option: any) => option.value);
+      store.dispatch(setFunction(newSelectedItems));
+    }
+
+    selectRef.current.blur();
+    setLocalSelectedItems(newSelectedItems);
+  };
+
   function handleClickOutside(event: MouseEvent) {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-      setIsOpen(false)
+      setIsOpen(false);
     }
   }
-
-  useEffect(() => {
-    if (isOpen) {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-          document.removeEventListener("mousedown", handleClickOutside);
-        };
-      }
-  }, [isOpen])
 
   const getDropDownLabel = () => {
-    if (selectedItems.length === 0) {
-      return title
-    }
+    if (lateral || selectedItems.length === 0) return title;
 
-    const selectedNames = items.filter(item => selectedItems.includes(item.id)).map(item => item.name)
+    const selectedNames = items.filter(item => selectedItems.includes(item.id)).map(item => item.name);
 
-    const ITEMS_TO_SHOW = 1
+    const ITEMS_TO_SHOW = 1;
 
     if (selectedNames.length > ITEMS_TO_SHOW) {
-      return `${selectedNames.slice(0, ITEMS_TO_SHOW).join(', ')} +${selectedNames.length - ITEMS_TO_SHOW}`
+      return `${selectedNames.slice(0, ITEMS_TO_SHOW).join(', ')} +${selectedNames.length - ITEMS_TO_SHOW}`;
     }
-    
-    return `${selectedNames.join(', ')}`
-  }
+
+    return `${selectedNames.join(', ')}`;
+  };
+
+  const handleDropdownToggle = () => {
+    if (lateral) return;
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    if (!lateral && isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [isOpen, lateral]);
+
+  useEffect(() => {
+    store.dispatch(setFunction(localSelectedItems));
+  }, [shouldUpdate]);
 
   return (
-    <DropdownContainer ref={wrapperRef}>
-      <button onClick={() => setIsOpen(!isOpen)} className={`${isOpen ? 'open': ''}`}>{getDropDownLabel()} <ChevronDown size={24} /></button>
-      
+    <DropdownContainer ref={wrapperRef} className={`${lateral ? 'lateral' : ''}`}>
+      <button onClick={handleDropdownToggle} className={`${isOpen ? 'open' : ''}`}>
+        {getDropDownLabel()} <ChevronDown size={24} />
+      </button>
+
       {isOpen && (
-        <select onChange={(event) => handleSelect(event.target)} multiple>
+        <select ref={selectRef} value={lateral ? [] : localSelectedItems} id={`select-${title}`} onChange={handleSelect} multiple size={items.length}>
           {items.map(item => (
-            <option 
-              key={item.id}
-              value={item.id} 
-              label={item.name}
-              className={`${selectedItems.includes(item.id) ? 'selected': ''}`}
-            >{item.name}</option>
+            <option key={item.id} value={item.id} label={item.name} className={`${localSelectedItems.includes(item.id) ? 'selected' : ''}`}>
+              {item.name}
+            </option>
           ))}
         </select>
       )}
     </DropdownContainer>
-  )
+  );
 }
 
-export default Dropdown
+export default Dropdown;

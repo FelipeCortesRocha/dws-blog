@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { colors } from "../../styles";
+import styled from 'styled-components';
+import { colors } from '../../styles';
 
 export const ButtonContainer = styled.button`
   display: flex;
@@ -37,7 +37,7 @@ export const ButtonContainer = styled.button`
 
   &.tertiary {
     background-color: transparent;
-    color: ${colors.neutrals["extra-dark"]};
+    color: ${colors.neutrals['extra-dark']};
 
     svg {
       color: ${colors.accent.medium};
@@ -45,10 +45,10 @@ export const ButtonContainer = styled.button`
 
     &:hover {
       background-color: ${colors.accent.medium};
-      color: ${colors.neutrals["extra-light"]};
+      color: ${colors.neutrals['extra-light']};
 
       svg {
-        color: ${colors.neutrals["extra-light"]};
+        color: ${colors.neutrals['extra-light']};
       }
     }
   }

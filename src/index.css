@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 :root {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -30,11 +30,16 @@ body {
   min-height: 100dvh;
 }
 
-p, h1, h2, h3 {
+p,
+h1,
+h2,
+h3 {
   margin: 0;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   line-height: 130%;
   font-weight: 700;
 }
@@ -57,7 +62,8 @@ p {
   font-weight: 400;
 }
 
-caption, article {
+caption,
+article {
   font-size: 0.75rem;
   line-height: 130%;
   font-weight: 400;
