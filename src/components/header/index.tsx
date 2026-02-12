@@ -40,7 +40,7 @@ function Header() {
           />
 
           {searchInputOpen && (
-            <button onClick={() => setSearchInputOpen(false)} className="back-button">
+            <button onClick={handleSearchButtonClick} className="back-button">
               <ArrowLeft />
             </button>
           )}

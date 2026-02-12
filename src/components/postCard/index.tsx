@@ -10,8 +10,13 @@ interface PostCardProps {
 function PostCard({ post }: PostCardProps) {
   const navigate = useNavigate();
 
+  const handlePostCardClick = () => {
+    navigate(`/post/${post.id}`);
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }
+
   return (
-    <PostContainer onClick={() => navigate(`/post/${post.id}`)}>
+    <PostContainer onClick={handlePostCardClick}>
       <img src={post.thumbnail_url} alt="Post thumbnail" />
 
       <div className="content-container">

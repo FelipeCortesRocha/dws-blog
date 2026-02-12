@@ -30,6 +30,11 @@ function PostPage() {
     return sortedPosts.slice(0, 3);
   }, [posts]);
 
+  const handleBackButton = () => {
+    navigate('/')
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }
+
   return (
     <PostContainer>
       {isLoading && <div>Loading...</div>}
@@ -38,7 +43,7 @@ function PostPage() {
 
       {posts && posts.length > 0 && (
         <>
-          <Button type="secondary" onClick={() => navigate('/')} IconLeft={ArrowLeft}>
+          <Button type="secondary" onClick={handleBackButton} IconLeft={ArrowLeft}>
             Back
           </Button>
           <h1>{selectedPost?.title}</h1>

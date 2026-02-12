@@ -39,12 +39,10 @@ export const AppContainer = styled.div`
   flex-direction: column;
   align-items: center;
   background: linear-gradient(85deg, ${colors.accent.light}4D 0%, ${colors.neutrals.lightest} 23%, ${colors.neutrals['extra-light']} 73%, ${colors.secondary.light}4D 100%);
-  height: 100dvh;
-  width: 100dvw;
-  overflow: auto;
+  width: 100%;
+  min-height: 100dvh;
   color: ${colors.neutrals.darkest};
   box-sizing: border-box;
-  /* overflow-x: hidden; */
 
   @media screen and (min-width: ${breakpoints.tablet}) {
     padding-bottom: 100px;
