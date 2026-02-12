@@ -7,6 +7,7 @@ export const PostContainer = styled.article`
   flex-direction: column;
   overflow: hidden;
   cursor: pointer;
+  box-sizing: border-box;
 
   img {
     border-radius: 16px 16px 0 0;

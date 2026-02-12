@@ -44,6 +44,7 @@ export const AppContainer = styled.div`
   overflow: auto;
   color: ${colors.neutrals.darkest};
   box-sizing: border-box;
+  /* overflow-x: hidden; */
 
   @media screen and (min-width: ${breakpoints.tablet}) {
     padding-bottom: 100px;

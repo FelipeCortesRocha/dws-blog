@@ -16,11 +16,14 @@ export const HomeContainer = styled.div`
 
 export const ContentContainer = styled.div`
   display: flex;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 export const PostContainers = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 16px;
 
   @media screen and (min-width: ${breakpoints.tablet}) {

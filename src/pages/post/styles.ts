@@ -6,11 +6,19 @@ export const PostContainer = styled.div`
   flex-direction: column;
   gap: 16px;
   padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
 
   .cover-img {
     width: 100%;
     max-height: 400px;
     border-radius: 12px;
+  }
+
+  .last-articles {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
   @media screen and (min-width: ${breakpoints.tablet}) {
@@ -20,7 +28,7 @@ export const PostContainer = styled.div`
     box-sizing: border-box;
 
     .last-articles {
-      display: flex;
+      flex-direction: row;
       justify-content: space-between;
     }
   }
