@@ -48,7 +48,7 @@ export const DropdownContainer = styled.div`
       font-size: 14px;
       height: 28px;
       border-radius: 4px;
-      padding: 4px 0;
+      padding: 4px 16px;
       cursor: pointer;
 
       &.selected {
